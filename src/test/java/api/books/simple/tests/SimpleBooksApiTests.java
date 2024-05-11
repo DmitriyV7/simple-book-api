@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class SimpleBooksApiTests {
 
     private static final String BASE_URL = "https://simple-books-api.glitch.me";
-    private static final String ACCESS_TOKEN = "f23830e945f56f9146b19f4c2bc7aaf3f4dcec6f0862d08ef5fa76611041e722";
+    private static final String ACCESS_TOKEN = generateToken();
 
     @BeforeClass
     public static void setUp() {
@@ -253,7 +253,7 @@ public class SimpleBooksApiTests {
     public void getSingleOrderTest(){
 
         String orderId = placeOrderAndGetId();
-        System.out.println(orderId);
+//        System.out.println(orderId);
 
         given()
                 .pathParam("orderId", orderId)
@@ -261,9 +261,63 @@ public class SimpleBooksApiTests {
                 .get("/orders/{orderId}")
                 .then()
                 .statusCode(200)
-                .contentType(ContentType.JSON);
+                .contentType(ContentType.JSON)
+                .body("id",equalTo(orderId));
+    }
+
+    @Test
+    public void deleteOrderTest(){
+
+        String orderId = placeOrderAndGetId();
+        System.out.println(orderId);
+
+        given()
+                .pathParam("orderId", orderId)
+                .header("Authorization","Bearer " + ACCESS_TOKEN)
+                .delete("/orders/{orderId}")
+                .then()
+                .statusCode(204);
+    }
+
+    @Test
+    public void patchOrderTest(){
+
+        String orderId = placeOrderAndGetId();
+        String updateCustomerName = "Sam Peretson";
+        UpdateOrderRequest updateOrderRequest = new UpdateOrderRequest(updateCustomerName);
+        System.out.println(orderId);
+
+        given()
+                .pathParam("orderId", orderId)
+                .header("Authorization","Bearer " + ACCESS_TOKEN)
+                .contentType(ContentType.JSON)
+                .body(updateOrderRequest)
+                .patch("/orders/{orderId}")
+                .then()
+                .statusCode(204);
+
+        Response response = given()
+                .pathParam("orderId", orderId)
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .get("/orders/{orderId}")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .extract()
+                .response();
+        OrderDetailsResponse orderDetailsResponse = response.as(OrderDetailsResponse.class);
+        System.out.println(orderDetailsResponse);
+        Assert.assertEquals(orderId,orderDetailsResponse.getId());
+        Assert.assertEquals(1,orderDetailsResponse.getBookId());
+        Assert.assertEquals(updateCustomerName,orderDetailsResponse.getCustomerName());
+        Assert.assertEquals(ACCESS_TOKEN,orderDetailsResponse.getCreatedBy());
+        Assert.assertEquals(1,orderDetailsResponse.getQuantity());
+//        Assert.assertEquals();
+
+
 
     }
+
 
     private String placeOrderAndGetId(){
         return given()
@@ -282,9 +336,9 @@ public class SimpleBooksApiTests {
 
     }
 
-    private static String generateToken(){
+    public static String generateToken(){
 
-        ClientRequestBody requestBody = new ClientRequestBody("DmitriyV7","dmitriy77@mail.ru");
+        ClientRequestBody requestBody = new ClientRequestBody("Kevin Bee","KevinBee13@gmail.com");
 
         Response response = given()
                 .contentType(ContentType.JSON)
