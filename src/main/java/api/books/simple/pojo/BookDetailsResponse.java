@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class BookFullDetailsResponse {
+public class BookDetailsResponse {
     private int id;
     private String name;
     private String author;
@@ -15,10 +15,10 @@ public class BookFullDetailsResponse {
     private int currentStock;
     private boolean available;
 
-    public BookFullDetailsResponse() {
+    public BookDetailsResponse() {
     }
 
-    public BookFullDetailsResponse(int id, String name, String author, int isbn, String type, double price, int currentStock, boolean available) {
+    public BookDetailsResponse(int id, String name, String author, int isbn, String type, double price, int currentStock, boolean available) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -97,7 +97,7 @@ public class BookFullDetailsResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookFullDetailsResponse that = (BookFullDetailsResponse) o;
+        BookDetailsResponse that = (BookDetailsResponse) o;
         return id == that.id && isbn == that.isbn && Double.compare(price, that.price) == 0 && currentStock == that.currentStock && available == that.available && Objects.equals(name, that.name) && Objects.equals(author, that.author) && Objects.equals(type, that.type);
     }
 

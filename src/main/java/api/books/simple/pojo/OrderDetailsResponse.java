@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class OrderDetailsResponse {
     private String id;
@@ -14,5 +14,4 @@ public class OrderDetailsResponse {
     private String createdBy;
     private int quantity;
     private long timestamp;
-
 }

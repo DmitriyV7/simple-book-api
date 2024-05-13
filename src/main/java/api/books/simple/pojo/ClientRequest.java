@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class ClientRequestBody {
-    private  String clientName;
+public class ClientRequest {
+    private String clientName;
     private String clientEmail;
 }

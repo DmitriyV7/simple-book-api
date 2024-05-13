@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ApiClientResponseBody {
-    private  String accessToken;
+    private String accessToken;
 }

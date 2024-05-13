@@ -7,14 +7,14 @@ public class BookShotDetailsResponse {
     private String id;
     private  int bookId;
     private String customerName;
-    private String createdBy;
+    private int createdBy;
     private int quantity;
     private int timestamp;
 
     public BookShotDetailsResponse() {
     }
 
-    public BookShotDetailsResponse(String id, int bookId, String customerName, String createdBy, int quantity, int timestamp) {
+    public BookShotDetailsResponse(String id, int bookId, String customerName, int createdBy, int quantity, int timestamp) {
         this.id = id;
         this.bookId = bookId;
         this.customerName = customerName;
@@ -47,11 +47,11 @@ public class BookShotDetailsResponse {
         this.customerName = customerName;
     }
 
-    public String getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
