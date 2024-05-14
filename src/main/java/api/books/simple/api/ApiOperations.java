@@ -61,7 +61,6 @@ public class ApiOperations {
             requestSpecification = requestSpecification.header("Authorization", INVALID_TOKEN);
         }
         return   requestSpecification
-                .contentType(ContentType.JSON)
                 .body(payload)
                 .when()
                 .post(endpoint);
@@ -85,7 +84,6 @@ public class ApiOperations {
         }
         return requestSpecification
                 .pathParams(paramKey, paramValue)
-                .when()
                 .delete(endpoint);
     }
 

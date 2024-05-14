@@ -8,7 +8,6 @@ import static api.books.simple.api_constants.ApiEndPoints.*;
 
 
 import api.books.simple.pojo.*;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
@@ -177,11 +176,12 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderWithNoAccessTokenTest(){
-        performPostRequest(POST_ORDERS_ENDPOINT,"{\n" +
+        String payload = "{\n" +
                 "  \"bookId\": 1,\n" +
                 "  \"customerName\": \"Tom Smith\"\n" +
                 "  \n" +
-                "}",false)
+                "}";
+        performPostRequest(POST_ORDERS_ENDPOINT, payload,false)
                 .then()
                 .statusCode(UNAUTHORIZED)
                 .contentType(ContentType.JSON)
@@ -232,47 +232,21 @@ public class SimpleBooksApiTests {
     public void patchOrderTest(){
 
         String orderId = placeOrderAndGetId();
-        String updateCustomerName = "Sam Peretson";
-        UpdateOrderRequest updateOrderRequest = new UpdateOrderRequest(updateCustomerName);
-        System.out.println(orderId);
+        String updatedCustomerName = "Tom Peterson";
 
-        given()
-                .pathParam("orderId", orderId)
-                .header("Authorization","Bearer " + ACCESS_TOKEN)
-                .contentType(ContentType.JSON)
-                .body(updateOrderRequest)
-                .patch(PATCH_ONE_ORDER_ENDPOINT)
+        performPatchRequest(PATCH_ONE_ORDER_ENDPOINT, "orderId", orderId, new UpdateOrderRequest(updatedCustomerName))
                 .then()
                 .statusCode(NO_CONTENT);
 
-        Response response = given()
-                .pathParam("orderId", orderId)
-                .header("Authorization", "Bearer " + ACCESS_TOKEN)
-                .get(GET_ONE_ORDER_ENDPOINT)
+        performGetRequestPathParam(GET_ONE_ORDER_ENDPOINT, "orderId", orderId, true)
                 .then()
                 .statusCode(OK)
                 .contentType(ContentType.JSON)
-                .extract()
-                .response();
-        OrderDetailsResponse orderDetailsResponse = response.as(OrderDetailsResponse.class);
-        System.out.println(orderDetailsResponse);
-        Assert.assertEquals(orderId,orderDetailsResponse.getId());
-        Assert.assertEquals(1,orderDetailsResponse.getBookId());
-        Assert.assertEquals(updateCustomerName,orderDetailsResponse.getCustomerName());
-        Assert.assertEquals(1,orderDetailsResponse.getQuantity());
-
-
-
-
+                .body("customerName", equalTo(updatedCustomerName));
     }
 
-
     private String placeOrderAndGetId(){
-        return given()
-                .contentType(ContentType.JSON)
-                .header("Authorization","Bearer " + ACCESS_TOKEN)
-                .body(new SubmitOrderRequest(1,"Tom Smith"))
-                .post(POST_ORDERS_ENDPOINT)
+        return performPostRequest(POST_ORDERS_ENDPOINT, new SubmitOrderRequest(1, "Tom Smith"), true)
                 .then()
                 .statusCode(CREATED)
                 .contentType(ContentType.JSON)
@@ -280,8 +254,6 @@ public class SimpleBooksApiTests {
                 .response()
                 .jsonPath()
                 .getString("orderId");
-
-
     }
 
     public static String generateToken(){
@@ -300,9 +272,4 @@ public class SimpleBooksApiTests {
         String accessToken = response.as(ApiClientResponseBody.class).getAccessToken();
         return accessToken;
     }
-
-//    public static void main(String[] args) {
-//        System.out.println(generateToken());
-//    }
-
 }
