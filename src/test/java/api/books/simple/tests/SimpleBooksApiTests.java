@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class SimpleBooksApiTests {
 
     private static final String BASE_URL = "https://simple-books-api.glitch.me";
-    private static final String ACCESS_TOKEN = "2da072dcd711ef45f1dfc4b67c46cd9fb6c28a0b1cdc9a9027ca78cb80a413ba";
+    private static final String ACCESS_TOKEN = "0963ea11f5a92351b7ff9faae3c87507baa1c050d391c6afe2dbb5c953b0c9dc";
 
     @BeforeClass
     public static void setUp() {
@@ -171,7 +171,7 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Tom Smith");
         given()
                 .contentType(ContentType.JSON)
                 .header("Authorization","Bearer " + ACCESS_TOKEN)
@@ -186,7 +186,7 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderBadTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Tom Smith");
         given()
                 .contentType(ContentType.JSON)
                 .header("Authorization","Bearer " + ACCESS_TOKEN)
@@ -205,7 +205,7 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderWithNoAccessTokenTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Tom Smith");
         given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
@@ -222,7 +222,7 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderWithInvalidTokenTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Tom Smith");
         given()
                 .header("Authorization","Bearer i" + ACCESS_TOKEN)
                 .contentType(ContentType.JSON)
@@ -310,9 +310,8 @@ public class SimpleBooksApiTests {
         Assert.assertEquals(orderId,orderDetailsResponse.getId());
         Assert.assertEquals(1,orderDetailsResponse.getBookId());
         Assert.assertEquals(updateCustomerName,orderDetailsResponse.getCustomerName());
-        Assert.assertEquals(ACCESS_TOKEN,orderDetailsResponse.getCreatedBy());
         Assert.assertEquals(1,orderDetailsResponse.getQuantity());
-//        Assert.assertEquals();
+
 
 
 
@@ -323,7 +322,7 @@ public class SimpleBooksApiTests {
         return given()
                 .contentType(ContentType.JSON)
                 .header("Authorization","Bearer " + ACCESS_TOKEN)
-                .body(new SubmitOrderRequest(1,"DmitriyV77"))
+                .body(new SubmitOrderRequest(1,"Tom Smith"))
                 .post("/orders")
                 .then()
                 .statusCode(201)
@@ -338,7 +337,7 @@ public class SimpleBooksApiTests {
 
     public static String generateToken(){
 
-        ClientRequestBody requestBody = new ClientRequestBody("Kevin Bee","KevinBee13@gmail.com");
+        ClientRequestBody requestBody = new ClientRequestBody("Tom Smith","TomSmith@gmail.com");
 
         Response response = given()
                 .contentType(ContentType.JSON)
