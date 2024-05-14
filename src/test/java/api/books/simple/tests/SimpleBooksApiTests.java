@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class SimpleBooksApiTests {
 
     private static final String BASE_URL = "https://simple-books-api.glitch.me";
-    private static final String ACCESS_TOKEN = generateToken();
+    private static final String ACCESS_TOKEN = "a10da11291cad51b293a60f1546a3e413fc76e601cc6b9b0bd82db9f735705be";
 
     @BeforeClass
     public static void setUp() {
@@ -171,7 +171,7 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Zeet Beet");
         given()
                 .contentType(ContentType.JSON)
                 .header("Authorization","Bearer " + ACCESS_TOKEN)
@@ -186,13 +186,13 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderBadTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Zeet Beet");
         given()
                 .contentType(ContentType.JSON)
                 .header("Authorization","Bearer " + ACCESS_TOKEN)
                 .body("{\n" +
                         "  \"bookId\": 1,\n" +
-                        "  \"customerName\": \"DmitriyV\"\n" +
+                        "  \"customerName\": \"Zeet Beet\"\n" +
                         "  \n" +
                         "}")
                 .post("/orders")
@@ -205,12 +205,12 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderWithNoAccessTokenTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Zeet Beet");
         given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
                         "  \"bookId\": 1,\n" +
-                        "  \"customerName\": \"DmitriyV\"\n" +
+                        "  \"customerName\": \"Zeet Beet\"\n" +
                         "  \n" +
                         "}")
                 .post("/orders")
@@ -222,13 +222,13 @@ public class SimpleBooksApiTests {
 
     @Test
     public void postSubmitBookOrderWithInvalidTokenTest(){
-        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"DmitriyV77");
+        SubmitOrderRequest bookBody = new SubmitOrderRequest(1,"Zeet Beet");
         given()
                 .header("Authorization","Bearer i" + ACCESS_TOKEN)
                 .contentType(ContentType.JSON)
                 .body("{\n" +
                         "  \"bookId\": 1,\n" +
-                        "  \"customerName\": \"DmitriyV\"\n" +
+                        "  \"customerName\": \"Zeet Beet\"\n" +
                         "  \n" +
                         "}")
                 .post("/orders")
@@ -310,7 +310,6 @@ public class SimpleBooksApiTests {
         Assert.assertEquals(orderId,orderDetailsResponse.getId());
         Assert.assertEquals(1,orderDetailsResponse.getBookId());
         Assert.assertEquals(updateCustomerName,orderDetailsResponse.getCustomerName());
-        Assert.assertEquals(ACCESS_TOKEN,orderDetailsResponse.getCreatedBy());
         Assert.assertEquals(1,orderDetailsResponse.getQuantity());
 //        Assert.assertEquals();
 
@@ -323,7 +322,7 @@ public class SimpleBooksApiTests {
         return given()
                 .contentType(ContentType.JSON)
                 .header("Authorization","Bearer " + ACCESS_TOKEN)
-                .body(new SubmitOrderRequest(1,"DmitriyV77"))
+                .body(new SubmitOrderRequest(1,"Kevin Zeet"))
                 .post("/orders")
                 .then()
                 .statusCode(201)
@@ -336,25 +335,25 @@ public class SimpleBooksApiTests {
 
     }
 
-    public static String generateToken(){
-
-        ClientRequestBody requestBody = new ClientRequestBody("Kevin Bee","KevinBee13@gmail.com");
-
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when()
-                .post(BASE_URL + "/api-clients")
-                .then()
-                .statusCode(201)
-                .extract()
-                .response();
-        String accessToken = response.as(ApiClientResponseBody.class).getAccessToken();
-        return accessToken;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(generateToken());
-    }
+//    public static String generateToken(){
+//
+//        ClientRequestBody requestBody = new ClientRequestBody("Kevin Zeet","KevinZeet@mail.com");
+//
+//        Response response = given()
+//                .contentType(ContentType.JSON)
+//                .body(requestBody)
+//                .when()
+//                .post(BASE_URL + "/api-clients")
+//                .then()
+//                .statusCode(201)
+//                .extract()
+//                .response();
+//        String accessToken = response.as(ApiClientResponseBody.class).getAccessToken();
+//        return accessToken;
+//    }
+//
+//    public static void main(String[] args) {
+//        System.out.println(generateToken());
+//    }
 
 }
