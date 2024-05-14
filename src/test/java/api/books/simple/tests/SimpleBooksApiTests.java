@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class SimpleBooksApiTests {
 
     private static final String BASE_URL = "https://simple-books-api.glitch.me";
-    private static final String ACCESS_TOKEN = generateToken();
+    private static final String ACCESS_TOKEN = "2da072dcd711ef45f1dfc4b67c46cd9fb6c28a0b1cdc9a9027ca78cb80a413ba";
 
     @BeforeClass
     public static void setUp() {
