@@ -1,4 +1,4 @@
-package api;
+package api.books.simple.api;
 
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 

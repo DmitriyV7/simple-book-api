@@ -1,6 +1,6 @@
 package api.books.simple.tests;
 
-import static api.ApiOperations.*;
+import static api.books.simple.api.ApiOperations.*;
 import static api.books.simple.api_constants.ApiStatus.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.CoreMatchers.*;

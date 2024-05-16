@@ -1,10 +1,10 @@
-package api;
+package api.books.simple.api;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-import static api.TokenGenerator.getNewToken;
+
 import static io.restassured.RestAssured.given;
 
 public class ApiOperations {
@@ -15,7 +15,7 @@ public class ApiOperations {
     private static final String AUTH_TOKEN;
 
     static{
-        AUTH_TOKEN = "Bearer " + getNewToken();
+        AUTH_TOKEN = "Bearer " + TokenGenerator.getNewToken();
     }
 
     public static Response performGetRequest(String endpoint, boolean requiresAuth){
